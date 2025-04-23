@@ -1,35 +1,40 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import Header from "./Header.jsx";
+import Album from "./Album.jsx";
+import AlbumAdmin from "./AlbumAdmin.jsx";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [photos, setPhotos] = useState([
+    {
+      id: 1,
+      url: "https://images.unsplash.com/photo-1543466835-00a7907e9de1",
+      caption: "Cute Puppy",
+    },
+    {
+      id: 2,
+      url: "https://images.unsplash.com/photo-1583511655826-05700d52f4d9",
+      caption: "Happy Dog",
+    },
+  ]);
+
+  const addPhoto = (newPhoto) => {
+    setPhotos([...photos, { id: photos.length + 1, ...newPhoto }]);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-          ssssssssss
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="min-h-screen bg-gray-100">
+      <Header />
+      <div className="max-w-6xl mx-auto p-4">
+        <Routes>
+          <Route path="/" element={<Album photos={photos} />} />
+          <Route
+            path="/admin"
+            element={<AlbumAdmin addPhoto={addPhoto} photos={photos} />}
+          />
+        </Routes>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count isddd {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   );
 }
 
